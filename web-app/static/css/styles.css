@@ -3,15 +3,14 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #FFFACD, #FFCCF9, #CCF5FF); /* Gradient: yellow, baby pink, baby blue */
+    background: linear-gradient(135deg, #FFFACD, #FFCCF9, #CCF5FF);
     background-size: 400% 400%;
     animation: gradientAnimation 15s ease infinite;
     color: #333; /* Default text color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 /* Gradient animation for a smooth transition effect */
@@ -27,16 +26,16 @@ body {
     }
 }
 
-/* Centering and card-style container */
+/* Container styling */
 .container {
-    max-width: 450px;
+    text-align: center;
+    max-width: 600px;
     width: 90%;
     margin: 30px auto;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.85); /* Slightly more opaque for better readability */
+    background: rgba(255, 255, 255, 0.85);
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    text-align: center;
 }
 
 /* Headings with soft, modern colors */
@@ -55,53 +54,10 @@ h2 {
     font-size: 2em;
 }
 
-/* Form styling for a clean look */
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Spacing between form elements */
-    align-items: center; /* Center elements horizontally */
-    padding: 10px;
-    width: 100%; /* Match parent container width */
-    box-sizing: border-box;
-}
-
-/* Form group styling */
-.form-group label {
-    font-weight: 600;
-    font-size: 1.1em;
-    color: #555;
-    margin-bottom: 5px;
-    display: block;
-    text-align: left; /* Align label text to the left */
-}
-
-/* Input field styling */
-input {
-    width: 100%; /* Full width relative to parent */
-    max-width: 400px; /* Prevent inputs from exceeding container */
-    padding: 12px 15px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 1em;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    background-color: #fff;
-    color: #333;
-    box-sizing: border-box; /* Include padding in width calculation */
-    margin: 0 auto; /* Center inputs inside the form */
-}
-
-/* Input focus styling */
-input:focus {
-    border-color: #FFB3C6; /* Soft pink focus color */
-    box-shadow: 0 0 8px rgba(255, 179, 198, 0.5); /* Subtle shadow */
-    outline: none;
-}
-
 /* Buttons with modern design */
 .btn {
     padding: 12px 20px;
-    background: linear-gradient(135deg, #FFCCF9, #CCF5FF); /* Gradient button */
+    background: linear-gradient(135deg, #FFCCF9, #CCF5FF);
     color: #333;
     font-weight: bold;
     border: none;
@@ -110,26 +66,25 @@ input:focus {
     font-size: 1em;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    display: block;
+    margin: 20px auto;
 }
 
 /* Button hover effect */
 .btn:hover {
-    background: linear-gradient(135deg, #CCF5FF, #FFCCF9); /* Reverse gradient */
+    background: linear-gradient(135deg, #CCF5FF, #FFCCF9);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Links styled to match the app theme */
-.btn-link {
-    font-size: 0.95em;
-    color: #FFB3C6;
-    text-decoration: none;
-    transition: color 0.3s ease;
+/* Secondary button styling */
+.btn-secondary {
+    background: linear-gradient(135deg, #FFCCF9, #FF80AB);
+    color: #fff;
 }
 
-/* Link hover effect */
-.btn-link:hover {
-    color: #FF80AB; /* Slightly darker pink */
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #FF80AB, #FFCCF9);
 }
 
 /* Alerts for success and errors */
@@ -157,23 +112,23 @@ input:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px 0; /* Spacing around the feed */
+    margin: 20px 0;
 }
 
 .live-feed img {
-    max-width: 100%; /* Ensures the image does not overflow the container */
+    max-width: 100%;
     height: auto;
-    border-radius: 10px; /* Rounded corners for the video feed */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for better visibility */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Card styling for consistent design */
 .card {
-    background: rgba(255, 255, 255, 0.85); /* Matches the container background */
+    background: rgba(255, 255, 255, 0.85);
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     padding: 20px;
-    margin-bottom: 20px; /* Space between cards */
+    margin-bottom: 20px;
     text-align: center;
 }
 
@@ -191,78 +146,22 @@ input:focus {
 /* Footer styling */
 .footer {
     margin-top: 20px;
-    color: #777;
-    font-size: 0.9em;
-    text-align: center;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.85); /* Consistent with container */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Smooth hover transition for all interactive elements */
-button, a, input {
-    transition: all 0.3s ease;
-}
-
-/* Ensure overall readability on mobile */
-@media (max-width: 768px) {
-    .container {
-        width: 95%;
-    }
-
-    h1 {
-        font-size: 2em;
-    }
-
-    h2 {
-        font-size: 1.8em;
-    }
-
-    .live-feed img {
-        width: 100%; /* Ensures the feed scales for mobile devices */
-    }
-}
-/* General button styling */
-.btn {
-    padding: 12px 20px;
-    background: linear-gradient(135deg, #FFCCF9, #CCF5FF); /* Gradient button */
-    color: #333;
-    font-weight: bold;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    display: block; /* Ensures button spans across block-level containers */
-    margin: 20px auto; /* Center the button */
-}
-
-/* Button hover effect */
-.btn:hover {
-    background: linear-gradient(135deg, #CCF5FF, #FFCCF9); /* Reverse gradient */
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* Footer styling for Logout Button */
-.footer {
-    margin-top: 30px;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.85); /* Matches the container */
+    background: rgba(255, 255, 255, 0.85);
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    color: #777;
+    font-size: 0.9em;
 }
 
-/* Logout Button Container */
+/* Logout button container */
 .logout-container {
     margin-top: 30px;
     text-align: center;
 }
 
-/* Logout Button Styling */
+/* Logout button styling */
 .logout-btn {
     background: linear-gradient(135deg, #FFCCF9, #FF80AB);
     color: #fff;
@@ -282,90 +181,94 @@ button, a, input {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* General body styling */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #FFFACD, #FFCCF9, #CCF5FF);
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
-/* Container styling */
-.container {
-    text-align: center;
-    max-width: 600px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Welcome Header Styling */
-.welcome-header h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-    color: #444;
-}
-
-.welcome-header h1 .brand {
-    color: #FF80AB; /* Brand color */
-}
-
-.welcome-header p {
-    font-size: 1.2em;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-/* Buttons */
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 5px;
+/* Input field styling */
+input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
     font-size: 1em;
-    font-weight: bold;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
     color: #333;
-    text-decoration: none;
-    background: linear-gradient(135deg, #FFCCF9, #CCF5FF);
-    border: none;
-    border-radius: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-    cursor: pointer;
+    box-sizing: border-box;
+    margin: 0 auto;
 }
 
-.btn:hover {
-    background: linear-gradient(135deg, #CCF5FF, #FFCCF9);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.btn-secondary {
-    background: linear-gradient(135deg, #FFCCF9, #FF80AB);
-    color: #fff;
-}
-
-.btn-secondary:hover {
-    background: linear-gradient(135deg, #FF80AB, #FFCCF9);
+input:focus {
+    border-color: #FFB3C6;
+    box-shadow: 0 0 8px rgba(255, 179, 198, 0.5);
+    outline: none;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .welcome-header h1 {
+    .container {
+        width: 95%;
+    }
+
+    h1 {
         font-size: 2em;
     }
 
-    .welcome-header p {
-        font-size: 1em;
+    h2 {
+        font-size: 1.8em;
+    }
+
+    .live-feed img {
+        width: 100%;
     }
 
     .btn {
         font-size: 0.9em;
         padding: 8px 16px;
     }
+}
+/* Welcome container styling */
+.welcome-container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2); /* Match app's background */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+.welcome-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+/* Button container styling */
+.button-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center-align buttons */
+    gap: 10px; /* Reduced space between buttons */
+}
+
+/* Small button styling */
+.small-btn {
+    padding: 8px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #FF80AB, #CCF5FF); /* Gradient button */
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    width: 130px; /* Smaller button width */
+    text-align: center;
+}
+
+/* Hover effect for small buttons */
+.small-btn:hover {
+    background: linear-gradient(135deg, #CCF5FF, #FF80AB); /* Reverse gradient */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }

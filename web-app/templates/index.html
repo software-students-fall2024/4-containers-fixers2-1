@@ -2,12 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to MOODSENSE</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Welcome to MOODSENSE</h1>
-        <a href="{{ url_for('login') }}">Login</a>
-        <a href="{{ url_for('signup') }}">Sign Up</a>
+    <!-- Welcome Container -->
+    <div class="welcome-container">
+        <!-- Title -->
+        <h1 class="welcome-title">Welcome to MOODSENSE</h1>
+        
+        <!-- Subtitle -->
+        <p style="color: #555; font-size: 1.2em; margin-top: -10px;">Get started</p>
+        
+        <!-- Button Container -->
+        <div class="button-container">
+            <a href="{{ url_for('login') }}" class="btn small-btn">Login</a>
+            <a href="{{ url_for('signup') }}" class="btn small-btn">Sign Up</a>
+        </div>
+    </div>
 </body>
 </html>

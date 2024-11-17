@@ -7,17 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="container">
-            <a class="navbar-brand" href="/">Mood Detection</a>
-        </div>
-    </nav>
-
     <!-- Main Container -->
     <div class="container">
         <!-- Greeting Section -->
-        <header class="greeting">
+        <header class="greeting card" style="padding: 20px; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);">
             <h1>Hi {{ username }},</h1>
             <p>How are you feeling today?</p>
         </header>

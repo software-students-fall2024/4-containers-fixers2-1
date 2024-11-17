@@ -132,7 +132,7 @@ def dashboard():
         {"user_id": session["user_id"]}, sort=[("timestamp", -1)]
     )
     username = session.get("username", "User")
-    return render_template("dashboard.html", last_emotion=last_emotion, username=username)
+    return render_template("dashboard.html", username=username, last_emotion=last_emotion)
 
 
 @app.route("/logout", methods=["POST"])
