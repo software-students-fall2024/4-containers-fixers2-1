@@ -366,31 +366,32 @@ def test_alternative_emotion_prediction(client, mock_model, mock_db):
         mock_db.insert_one.assert_called_once()
 
 
-# def test_model_not_loaded(client, mock_db):
-#     """
-#     Test the /detect_emotion route when the TensorFlow model is not loaded.
-#     """
-#     with patch("machine_learning_client.ml_client.model", None):  # Simulate missing model
-#         dummy_image = np.ones((48, 48, 3), dtype=np.uint8) * 255
-#         _, buffer = cv2.imencode(".jpg", dummy_image)
-#         dummy_image_data = buffer.tobytes()
+def test_model_not_loaded(client, mock_db):
+    """
+    Test the /detect_emotion route when the TensorFlow model is not loaded.
+    """
+    with patch("machine_learning_client.ml_client.model", None):  # Simulate missing model
+        dummy_image = np.ones((48, 48, 3), dtype=np.uint8) * 255
+        _, buffer = cv2.imencode(".jpg", dummy_image)
+        dummy_image_data = buffer.tobytes()
 
-#         file_storage = FileStorage(
-#             stream=BytesIO(dummy_image_data),
-#             filename="test_image.jpg",
-#             content_type="image/jpeg",
-#         )
+        file_storage = FileStorage(
+            stream=BytesIO(dummy_image_data),
+            filename="test_image.jpg",
+            content_type="image/jpeg",
+        )
 
-#         response = client.post(
-#             "/detect_emotion",
-#             data={"image": file_storage},
-#             content_type="multipart/form-data",
-#         )
+        response = client.post(
+            "/detect_emotion",
+            data={"image": file_storage},
+            content_type="multipart/form-data",
+        )
 
-#         assert response.status_code == 500
-#         response_data = response.get_json()
-#         assert "error" in response_data
-#         assert "Failed to detect emotion" in response_data["error"]
+        assert response.status_code == 500
+        response_data = response.get_json()
+        assert "error" in response_data
+        assert "Emotion detection model not loaded" in response_data["error"]  # Match the exact message
+
 
 
 # def test_unhandled_exception_in_prediction(client, mock_model):
