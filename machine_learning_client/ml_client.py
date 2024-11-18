@@ -28,14 +28,20 @@ model_path = os.path.join(current_dir, "face_model.h5")  # pylint: disable=no-me
 
 model = tf.keras.models.load_model(model_path)  # pylint: disable=no-member
 
+class_names = ['Angry', 'Disgusted', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
 # Define a dictionary to map model output to emotion text
-emotion_dict = {
-    0: "Happy 😊",
-    1: "Sad 😢",
-    2: "Angry 😡",
-    3: "Surprised 😮",
-    4: "Neutral 😐",
-}
+# emotion_dict = {
+#     0: "Angry 😡",
+#     1: "Disgusted 🥴",
+#     2: "Fear 😨",
+#     3: "Happy 😊",
+#     4: "Sad 😢",
+#     5: "Surprised 😮",
+#     6: "Neutral 😐",
+# }
 
 def save_emotion(emotion):
     try: 
@@ -62,30 +68,28 @@ def detect_emotion():
         npimg = np.frombuffer(file.read(), np.uint8)
         frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
 
-        # Preprocess the image
-        resized_frame = cv2.resize(frame, (48, 48))  # Resize to model's input size
-        grayscale = cv2.cvtColor(
-            resized_frame, cv2.COLOR_BGR2GRAY
-        )  # Convert to grayscale
-        input_data = np.expand_dims(grayscale, axis=[0, -1]) / 255.0  # Normalize
+        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30))
 
-        # Predict emotion
-        prediction = model.predict(input_data)
-        emotion_label = np.argmax(prediction)
-        emotion_text = emotion_dict.get(emotion_label, "Unknown")
+        for (x, y, w, h) in faces:
+            face_roi = frame[y:y + h, x:x + w]
+            face_image = cv2.resize(face_roi, (48, 48))
+            face_image = cv2.cvtColor(face_image, cv2.COLOR_BGR2GRAY)
+            face_image = np.expand_dims(face_image, axis=(0, -1)) / 255.0
+            predictions = model.predict(face_image)
+            emotion_label = class_names[np.argmax(predictions)]
 
-        # Save emotion data to MongoDB
-        try:
-            emotion_data_collection.insert_one({"emotion": emotion_text, "timestamp": datetime.utcnow()})
-        except Exception as db_error:
-            return jsonify({"error": f"Database insertion failed: {str(db_error)}"}), 500
+            try:
+                emotion_data_collection.insert_one({"emotion": emotion_label, "timestamp": datetime.utcnow()})
+                print(f"Emotion '{emotion_label}' saved to the database.")
+            except Exception as db_error:
+                print(f"Database insertion failed: {db_error}")
+                return jsonify({"error": f"Database insertion failed: {str(db_error)}"}), 500
 
-        return jsonify({"emotion": emotion_text})
+        return jsonify({"emotion": emotion_label})
 
     except Exception as e:
         return jsonify({"error": f"Error: {str(e)}"}), 500
-
- 
 
 
 def run_emotion_detection():
