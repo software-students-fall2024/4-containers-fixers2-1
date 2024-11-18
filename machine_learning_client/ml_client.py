@@ -5,6 +5,7 @@ using a pre-trained machine learning model.
 
 from flask import Flask, request, jsonify,flash
 from datetime import datetime, timezone
+from tensorflow.keras.models import load_model
 import cv2
 import numpy as np
 import tensorflow as tf
@@ -26,7 +27,7 @@ emotion_data_collection = db["emotion_data"]
 current_dir = os.path.dirname(__file__)
 model_path = os.path.join(current_dir, "face_model.h5")  # pylint: disable=no-member
 
-model = tf.keras.models.load_model(model_path)  # pylint: disable=no-member
+model = load_model(model_path)  # pylint: disable=no-member
 
 class_names = ['Angry', 'Disgusted', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 
@@ -77,6 +78,7 @@ def detect_emotion():
             face_image = cv2.cvtColor(face_image, cv2.COLOR_BGR2GRAY)
             face_image = np.expand_dims(face_image, axis=(0, -1)) / 255.0
             predictions = model.predict(face_image)
+            print(f"Prediction probabilities: {predictions}")
             emotion_label = class_names[np.argmax(predictions)]
 
             try:
