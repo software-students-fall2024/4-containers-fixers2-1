@@ -3,7 +3,7 @@ This module contains functions for emotion detection
 using a pre-trained machine learning model.
 """
 
-from flask import Flask, request, jsonify,flash
+from flask import Flask, request, jsonify, flash
 from datetime import datetime, timezone
 from tensorflow.keras.models import load_model
 import cv2
@@ -29,9 +29,11 @@ model_path = os.path.join(current_dir, "face_model.h5")  # pylint: disable=no-me
 
 model = load_model(model_path)  # pylint: disable=no-member
 
-#class_names = ['Angry', 'Disgusted', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+# class_names = ['Angry', 'Disgusted', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier(
+    cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+)
 
 # Define a dictionary to map model output to emotion text
 emotion_dict = {
@@ -44,15 +46,17 @@ emotion_dict = {
     6: "Neutral 😐",
 }
 
+
 def save_emotion(emotion):
-    try: 
+    try:
         emotion_add = {
-                "emotion": emotion,
-                "timestamp": datetime.now(datetime.timezone.utc)
-        }   
+            "emotion": emotion,
+            "timestamp": datetime.now(datetime.timezone.utc),
+        }
         emotion_data_collection.insert_one(emotion_add)
     except Exception as error:
         flash(f"Error saving emotion to database")
+
 
 @app.route("/detect_emotion", methods=["POST"])
 def detect_emotion():
@@ -63,6 +67,7 @@ def detect_emotion():
         # Check if an image is provided in the request
         if "image" not in request.files:
             return jsonify({"error": "No image file provided"}), 400
+
         if model is None:
             return jsonify({"error": "Emotion detection model not loaded"}), 500
 
@@ -72,14 +77,16 @@ def detect_emotion():
         frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
 
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30))
+        faces = face_cascade.detectMultiScale(
+            gray_frame, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30)
+        )
 
         # Handle case where no faces are detected
         if len(faces) == 0:
             return jsonify({"error": "No faces detected in the image."}), 400
 
-        for (x, y, w, h) in faces:
-            face_roi = frame[y:y + h, x:x + w]
+        for x, y, w, h in faces:
+            face_roi = frame[y : y + h, x : x + w]
             face_image = cv2.resize(face_roi, (48, 48))
             face_image = cv2.cvtColor(face_image, cv2.COLOR_BGR2GRAY)
             face_image = np.expand_dims(face_image, axis=(0, -1)) / 255.0
@@ -89,9 +96,14 @@ def detect_emotion():
             emotion_label = emotion_dict.get(emotion_index, "Unknown")
 
             try:
-                emotion_data_collection.insert_one({"emotion": emotion_label, "timestamp": datetime.utcnow()})
+                emotion_data_collection.insert_one(
+                    {"emotion": emotion_label, "timestamp": datetime.utcnow()}
+                )
             except Exception as db_error:
-                return jsonify({"error": f"Database insertion failed: {str(db_error)}"}), 500
+                return (
+                    jsonify({"error": f"Database insertion failed: {str(db_error)}"}),
+                    500,
+                )
 
             return jsonify({"emotion": emotion_label})
 

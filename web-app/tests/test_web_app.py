@@ -180,6 +180,7 @@ def test_login_invalid_password(client, monkeypatch):
     assert response.status_code == 200
     assert b"Invalid username or password" in response.data
 
+
 class MockResponse:
     def __init__(self, json_data, status_code):
         self.json_data = json_data
@@ -187,8 +188,6 @@ class MockResponse:
 
     def json(self):
         return self.json_data
-
-
 
 
 def test_login_nonexistent_user(client, monkeypatch):
