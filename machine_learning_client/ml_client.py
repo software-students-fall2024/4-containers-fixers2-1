@@ -63,6 +63,8 @@ def detect_emotion():
         # Check if an image is provided in the request
         if "image" not in request.files:
             return jsonify({"error": "No image file provided"}), 400
+        if model is None:
+            return jsonify({"error": "Emotion detection model not loaded"}), 500
 
         # Read the image file from the request
         file = request.files["image"]
@@ -72,6 +74,10 @@ def detect_emotion():
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30))
 
+        # Handle case where no faces are detected
+        if len(faces) == 0:
+            return jsonify({"error": "No faces detected in the image."}), 400
+
         for (x, y, w, h) in faces:
             face_roi = frame[y:y + h, x:x + w]
             face_image = cv2.resize(face_roi, (48, 48))
@@ -79,11 +85,8 @@ def detect_emotion():
             face_image = np.expand_dims(face_image, axis=(0, -1)) / 255.0
 
             predictions = model.predict(face_image)
-            emotion_index = np.argmax(predictions) 
-            emotion_label = emotion_dict[emotion_index] 
-
-            if emotion_label is None:
-                return jsonify({"error": "Failed to detect emotion"}), 500
+            emotion_index = np.argmax(predictions)
+            emotion_label = emotion_dict.get(emotion_index, "Unknown")
 
             try:
                 emotion_data_collection.insert_one({"emotion": emotion_label, "timestamp": datetime.utcnow()})
@@ -93,7 +96,10 @@ def detect_emotion():
             return jsonify({"emotion": emotion_label})
 
     except Exception as e:
-        return jsonify({"error": f"Error: {str(e)}"}), 500
+        return jsonify({"error": f"Error processing the request: {str(e)}"}), 500
+
+    # Fallback for unexpected cases
+    return jsonify({"error": "Unexpected error occurred"}), 500
 
 
 def run_emotion_detection():
