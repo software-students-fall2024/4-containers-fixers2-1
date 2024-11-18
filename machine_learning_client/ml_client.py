@@ -29,20 +29,20 @@ model_path = os.path.join(current_dir, "face_model.h5")  # pylint: disable=no-me
 
 model = load_model(model_path)  # pylint: disable=no-member
 
-class_names = ['Angry', 'Disgusted', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+#class_names = ['Angry', 'Disgusted', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 # Define a dictionary to map model output to emotion text
-# emotion_dict = {
-#     0: "Angry 😡",
-#     1: "Disgusted 🥴",
-#     2: "Fear 😨",
-#     3: "Happy 😊",
-#     4: "Sad 😢",
-#     5: "Surprised 😮",
-#     6: "Neutral 😐",
-# }
+emotion_dict = {
+    0: "Angry 😡",
+    1: "Disgusted 🥴",
+    2: "Fear 😨",
+    3: "Happy 😊",
+    4: "Sad 😢",
+    5: "Surprised 😮",
+    6: "Neutral 😐",
+}
 
 def save_emotion(emotion):
     try: 
@@ -77,18 +77,20 @@ def detect_emotion():
             face_image = cv2.resize(face_roi, (48, 48))
             face_image = cv2.cvtColor(face_image, cv2.COLOR_BGR2GRAY)
             face_image = np.expand_dims(face_image, axis=(0, -1)) / 255.0
+
             predictions = model.predict(face_image)
-            print(f"Prediction probabilities: {predictions}")
-            emotion_label = class_names[np.argmax(predictions)]
+            emotion_index = np.argmax(predictions) 
+            emotion_label = emotion_dict[emotion_index] 
+
+            if emotion_label is None:
+                return jsonify({"error": "Failed to detect emotion"}), 500
 
             try:
                 emotion_data_collection.insert_one({"emotion": emotion_label, "timestamp": datetime.utcnow()})
-                print(f"Emotion '{emotion_label}' saved to the database.")
             except Exception as db_error:
-                print(f"Database insertion failed: {db_error}")
                 return jsonify({"error": f"Database insertion failed: {str(db_error)}"}), 500
 
-        return jsonify({"emotion": emotion_label})
+            return jsonify({"emotion": emotion_label})
 
     except Exception as e:
         return jsonify({"error": f"Error: {str(e)}"}), 500
