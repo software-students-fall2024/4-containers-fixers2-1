@@ -77,5 +77,7 @@ docker-compose up --build
 ```
 
 **5. Open the local host link for web-app and enjoy!**
+To re-capture an emotion you will have to reload the page instead of pressing capture emotion again, bug to be fixed in later versions!
 
 Thank you for the [Emotion Detection Model](https://www.kaggle.com/datasets/abhisheksingh016/machine-model-for-emotion-detection)!
+Note: using pre trained model does not guarentee accuracte reading every time so please be nice with the prediction it gives you!
