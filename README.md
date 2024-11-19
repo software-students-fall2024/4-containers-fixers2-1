@@ -1,4 +1,5 @@
 ![Lint-free](https://github.com/nyu-software-engineering/containerized-app-exercise/actions/workflows/lint.yml/badge.svg)
+![CI Status](https://github.com/software-students-fall2024/4-containers-fixers2-1/actions/workflows/ci.yml/badge.svg)
 
 # Containerized App Exercise
 
@@ -6,14 +7,8 @@
 
 1. [Teammates](#teammates)  
 2. [App Description: Emotion Recognition and Wellness Advisor](#app-description-emotion-recognition-and-wellness-advisor)  
-   - [How It Works](#how-it-works)  
-3. [How to Open](#how-to-open)  
-   - [Ensure Connection to Mongo](#1-ensure-connection-to-mongo)  
-   - [Create a New Virtual Environment](#2-create-a-new-virtual-environment)  
-   - [Install Dependencies](#3-install-dependencies-if-not-already-installed)  
-   - [Docker Compose](#4-docker-compose)  
-   - [Open the Local Host Link](#5-open-the-local-host-link-for-web-app-and-enjoy)
-
+3. [Task Board](#task-board)
+4. [How to Open](#how-to-open)
 
 # Teammates 
 
@@ -29,6 +24,10 @@
 
 Our Emotion Recognition and Wellness Advisor app uses cutting-edge emotion detection technology to help users enhance their mental well-being. By analyzing facial expressions in real-time, the app identifies emotions such as happiness, sadness, anger, and more. Based on the detected emotion, the app provides tailored wellness advice, like mindfulness exercises, motivational quotes, or self-care suggestions.
 
+# Task Board
+
+[Task Board](https://github.com/orgs/software-students-fall2024/projects/105)
+
 **How It Works:**
 
 - **Emotion Detection:** Using a machine learning model, the app captures real-time images or videos and identifies the user’s current emotional state.
@@ -37,12 +36,11 @@ Our Emotion Recognition and Wellness Advisor app uses cutting-edge emotion detec
 
 The app aims to promote emotional awareness and provide quick, personalized guidance for mental well-being. Whether you’re looking to uplift your mood or enhance your mindfulness practice, this app supports you on your wellness journey.
 
-## How to Open **
+# How to Open
 
 **1. Ensure Connection to Mongo**
 
 Download the MongoDB for VSC extension and add the database url: mongodb+srv://nsb8225:thefixers2.1@cluster0.oqt4t.mongodb.net/ when prompted to connect to the database.
-
 
 **2. Create a new virtual environment following the commands:**
 
@@ -71,7 +69,7 @@ pip install pymongo
 
 **4. Docker Compose**
 
-Make sure that the Docker Sektop is downloaded and you are logged into your account before running the following comand:
+Make sure that the Docker Desktop is downloaded and you are logged into your account before running the following comand:
 
 ```
 docker-compose up --build
