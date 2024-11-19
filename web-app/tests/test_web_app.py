@@ -182,12 +182,19 @@ def test_login_invalid_password(client, monkeypatch):
 
 
 class MockResponse:
+    """
+    A mock response object to simulate HTTP responses during testing.
+    """
     def __init__(self, json_data, status_code):
         self.json_data = json_data
         self.status_code = status_code
 
     def json(self):
         return self.json_data
+    def raise_for_status(self):
+        if self.status_code >= 400:
+            raise ValueError(f"HTTP error: {self.status_code}")
+
 
 
 def test_login_nonexistent_user(client, monkeypatch):
