@@ -13,6 +13,8 @@ from datetime import datetime
 from machine_learning_client.ml_client import app, emotion_dict
 from unittest.mock import patch, MagicMock, ANY
 from pymongo.errors import PyMongoError
+
+
 # fix
 # Mock the MongoDB collection
 @pytest.fixture
