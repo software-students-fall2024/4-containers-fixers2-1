@@ -13,8 +13,6 @@ from datetime import datetime
 from machine_learning_client.ml_client import app, emotion_dict
 from unittest.mock import patch, MagicMock, ANY
 from pymongo.errors import PyMongoError
-
-
 # fix
 # Mock the MongoDB collection
 @pytest.fixture
@@ -134,22 +132,6 @@ def test_detect_emotion_invalid_method(client):
     """
     response = client.get("/detect_emotion")
     assert response.status_code == 405  # Method Not Allowed
-
-
-"""
-Tests for the machine learning client.
-"""
-
-import pytest
-import numpy as np
-import cv2
-from flask import Flask
-from werkzeug.datastructures import FileStorage
-from unittest.mock import patch, MagicMock, ANY
-from io import BytesIO
-from datetime import datetime
-from machine_learning_client.ml_client import app, emotion_dict
-from pymongo.errors import PyMongoError
 
 
 @pytest.fixture
