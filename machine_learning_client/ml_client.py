@@ -3,8 +3,9 @@ This module contains functions for emotion detection
 using a pre-trained machine learning model.
 """
 
-from flask import Flask, request, jsonify,flash
+from flask import Flask, request, jsonify, flash
 from datetime import datetime, timezone
+from tensorflow.keras.models import load_model
 import cv2
 import numpy as np
 import tensorflow as tf
@@ -26,66 +27,91 @@ emotion_data_collection = db["emotion_data"]
 current_dir = os.path.dirname(__file__)
 model_path = os.path.join(current_dir, "face_model.h5")  # pylint: disable=no-member
 
-model = tf.keras.models.load_model(model_path)  # pylint: disable=no-member
+model = load_model(model_path)  # pylint: disable=no-member
+
+# class_names = ['Angry', 'Disgusted', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+
+face_cascade = cv2.CascadeClassifier(
+    cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+)
 
 # Define a dictionary to map model output to emotion text
 emotion_dict = {
-    0: "Happy 😊",
-    1: "Sad 😢",
-    2: "Angry 😡",
-    3: "Surprised 😮",
-    4: "Neutral 😐",
+    0: "Angry 😡",
+    1: "Disgusted 🥴",
+    2: "Fear 😨",
+    3: "Happy 😊",
+    4: "Sad 😢",
+    5: "Surprised 😮",
+    6: "Neutral 😐",
 }
 
+
 def save_emotion(emotion):
-    try: 
+    try:
         emotion_add = {
-                "emotion": emotion,
-                "timestamp": datetime.now(datetime.timezone.utc)
-        }   
+            "emotion": emotion,
+            "timestamp": datetime.now(datetime.timezone.utc),
+        }
         emotion_data_collection.insert_one(emotion_add)
     except Exception as error:
         flash(f"Error saving emotion to database")
 
+
 @app.route("/detect_emotion", methods=["POST"])
-def detect_emotion(frame=None):
+def detect_emotion():
     """
     Detect emotion from an image sent via POST request and save it to MongoDB.
     """
     try:
-        if frame is None:
-            # Check if an image is provided in the request
-            if "image" not in request.files:
-                return jsonify({"error": "No image file provided"}), 400
-            # Read the image file from the request
-            file = request.files["image"]
-            npimg = np.frombuffer(file.read(), np.uint8)
-            frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+        # Check if an image is provided in the request
+        if "image" not in request.files:
+            return jsonify({"error": "No image file provided"}), 400
 
-        # Preprocess the image
-        resized_frame = cv2.resize(frame, (48, 48))  # Resize to model's input size
-        grayscale = cv2.cvtColor(
-            resized_frame, cv2.COLOR_BGR2GRAY
-        )  # Convert to grayscale
-        input_data = np.expand_dims(grayscale, axis=[0, -1]) / 255.0  # Normalize
+        if model is None:
+            return jsonify({"error": "Emotion detection model not loaded"}), 500
 
-        # Predict emotion
-        prediction = model.predict(input_data)
-        emotion_label = np.argmax(prediction)
-        emotion_text = emotion_dict.get(emotion_label, "Unknown")
+        # Read the image file from the request
+        file = request.files["image"]
+        npimg = np.frombuffer(file.read(), np.uint8)
+        frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
 
-        # Save emotion data to MongoDB
-        try:
-            emotion_data_collection.insert_one({"emotion": emotion_text, "timestamp": datetime.utcnow()})
-        except Exception as db_error:
-            return jsonify({"error": f"Database insertion failed: {str(db_error)}"}), 500
+        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(
+            gray_frame, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30)
+        )
 
-        return jsonify({"emotion": emotion_text})
+        # Handle case where no faces are detected
+        if len(faces) == 0:
+            return jsonify({"error": "No faces detected in the image."}), 400
+
+        for x, y, w, h in faces:
+            face_roi = frame[y : y + h, x : x + w]
+            face_image = cv2.resize(face_roi, (48, 48))
+            face_image = cv2.cvtColor(face_image, cv2.COLOR_BGR2GRAY)
+            face_image = np.expand_dims(face_image, axis=(0, -1)) / 255.0
+
+            predictions = model.predict(face_image)
+            emotion_index = np.argmax(predictions)
+            emotion_label = emotion_dict.get(emotion_index, "Unknown")
+
+            try:
+                emotion_data_collection.insert_one(
+                    {"emotion": emotion_label, "timestamp": datetime.utcnow()}
+                )
+            except Exception as db_error:
+                return (
+                    jsonify({"error": f"Database insertion failed: {str(db_error)}"}),
+                    500,
+                )
+
+            return jsonify({"emotion": emotion_label})
 
     except Exception as e:
-        return jsonify({"error": f"Error: {str(e)}"}), 500
+        return jsonify({"error": f"Error processing the request: {str(e)}"}), 500
 
- 
+    # Fallback for unexpected cases
+    return jsonify({"error": "Unexpected error occurred"}), 500
 
 
 def run_emotion_detection():
@@ -138,5 +164,4 @@ def run_emotion_detection():
 
 
 if __name__ == "__main__":
-    
     app.run(host="0.0.0.0", port=5000, debug=True)
