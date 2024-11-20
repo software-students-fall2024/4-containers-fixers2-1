@@ -4,7 +4,6 @@
 # Containerized App Exercise
 
 # Table of Contents
-
 1. [Teammates](#teammates)  
 2. [App Description: Emotion Recognition and Wellness Advisor](#app-description-emotion-recognition-and-wellness-advisor)  
 3. [Task Board](#task-board)
@@ -28,6 +27,7 @@ Our Emotion Recognition and Wellness Advisor app uses cutting-edge emotion detec
 # Task Board
 
 [Task Board](https://github.com/orgs/software-students-fall2024/projects/105)
+
 
 # What It Is
 
@@ -77,7 +77,9 @@ docker-compose up --build
 ```
 
 **5. Open the local host link for web-app and enjoy!**
+
 To re-capture an emotion you will have to reload the page instead of pressing capture emotion again, bug to be fixed in later versions!
 
+Notes for Usage: Face cannot be too far from camera (shoulders should be at bottom of screen) in order for the model to be able to read your emotion!
+
 Thank you for the [Emotion Detection Model](https://www.kaggle.com/datasets/abhisheksingh016/machine-model-for-emotion-detection)!
-Note: using pre trained model does not guarentee accuracte reading every time so please be nice with the prediction it gives you!

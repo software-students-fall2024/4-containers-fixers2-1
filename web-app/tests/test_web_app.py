@@ -273,3 +273,44 @@ def test_capture_no_user_session(client):
     response = client.post("/capture", json={"image": "dummy_base64_data"})
     assert response.status_code == 401  # Expect Unauthorized
     assert response.get_json()["error"] == "Please log in to access this feature."
+
+
+def test_capture_no_image_provided(client):
+    """
+    Test the capture route when no image is provided.
+    """
+    with client.session_transaction() as sess:
+        sess["user_id"] = "mock_user_id"
+
+    response = client.post("/capture", json={})  # No image in the request
+
+    # Verify error handling for missing image
+    assert response.status_code == 400
+    assert "No image provided" in response.get_json()["error"]
+
+
+def test_capture_image_decoding_error(client, monkeypatch):
+    """
+    Test error handling when image decoding fails.
+    """
+    with client.session_transaction() as sess:
+        sess["user_id"] = "mock_user_id"
+
+    # Simulate a decoding error by passing an invalid image string
+    response = client.post(
+        "/capture",
+        json={"image": "definitely_not_a_valid_image"},
+    )
+
+    # Verify error handling for image decoding failure
+    assert response.status_code == 500
+    assert "Error processing the image" in response.get_json()["error"]
+
+
+def test_dashboard_no_session(client):
+    """
+    Test the dashboard route when no session is available.
+    """
+    response = client.get("/dashboard")
+    assert response.status_code == 302  # Should redirect to login
+    assert response.headers["Location"].endswith("/login")

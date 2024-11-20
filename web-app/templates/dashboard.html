@@ -37,6 +37,8 @@
                 <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
                 <!-- Display Result -->
                 <p id="result" class="mt-2"></p>
+                <!-- Display Recommendation -->
+                <p id="recommendation" class="mt-2"></p>
             </div>
         </section>
         
@@ -67,6 +69,7 @@
             const canvas = document.getElementById('canvas');
             const captureBtn = document.getElementById('capture-btn');
             const result = document.getElementById('result');
+            const recommendationElement = document.getElementById('recommendation');
         
             // Access the user's camera
             navigator.mediaDevices.getUserMedia({ video: true })
@@ -87,14 +90,22 @@
                     const response = await fetch('/capture', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ image: imageData })
+                        body: JSON.stringify({ image: imageData }) 
                     });
-        
+
                     const resultData = await response.json();
+
                     if (resultData.error) {
+                        // Handle error in the response
                         result.textContent = `Error: ${resultData.error}`;
                     } else {
+                        // Display the detected emotion and recommendation
                         result.textContent = `Detected Emotion: ${resultData.emotion}`;
+                        
+                        // Add another line for recommendation
+                        if (recommendationElement) {
+                            recommendationElement.textContent = `Recommendation: ${resultData.recommendation}`;
+                        }
                     }
                 } catch (error) {
                     console.error("Error sending image to Flask:", error);
@@ -102,7 +113,6 @@
                 }
             });
         </script>
-        
 
         <!-- Last Detected Emotion Section -->
         <section class="card">
