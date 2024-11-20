@@ -10,7 +10,6 @@
 4. [What It Is](#what-it-is)
 5. [How to Open](#how-to-open)
 
-
 # Teammates 
 
 [Dasha Miroshnichenko](https://github.com/dm5198)
@@ -32,17 +31,15 @@ Our Emotion Recognition and Wellness Advisor app uses cutting-edge emotion detec
 ## What It Is
 
 - **Emotion Detection:** Using a machine learning model, the app captures real-time images or videos and identifies the user’s current emotional state.
-- **Personalized Advice:** Based on the recognized emotion, the app recommends activities or tips to help maintain or improve the user's mood. For example, if sadness is detected, the app might suggest calming meditation exercises or uplifting music.
 - **Dashboard Display:** The web app presents a user-friendly dashboard where users can see their current and past emotions along with personalized advice.
 
-The app aims to promote emotional awareness and provide quick, personalized guidance for mental well-being. Whether you’re looking to uplift your mood or enhance your mindfulness practice, this app supports you on your wellness journey.
+The app aims to promote emotional awareness and provide guidance for mental well-being. Whether you’re looking to uplift your mood or enhance your mindfulness practice, this app supports you on your wellness journey.
 
-## How to Open **
+# How to Open
 
 **1. Ensure Connection to Mongo**
 
 Download the MongoDB for VSC extension and add the database url: mongodb+srv://nsb8225:thefixers2.1@cluster0.oqt4t.mongodb.net/ when prompted to connect to the database.
-
 
 **2. Create a new virtual environment following the commands:**
 
@@ -71,7 +68,7 @@ pip install pymongo
 
 **4. Docker Compose**
 
-Make sure that the Docker Sektop is downloaded and you are logged into your account before running the following comand:
+Make sure that the Docker Desktop is downloaded and you are logged into your account before running the following comand:
 
 ```
 docker-compose up --build
@@ -79,7 +76,9 @@ docker-compose up --build
 ```
 
 **5. Open the local host link for web-app and enjoy!**
+To re-capture an emotion you will have to reload the page instead of pressing capture emotion again, bug to be fixed in later versions!
 
 Notes for Usage: Face cannot be too far from camera (shoulders should be at bottom of screen) in order for the model to be able to read your emotion!
 
 Thank you for the [Emotion Detection Model](https://www.kaggle.com/datasets/abhisheksingh016/machine-model-for-emotion-detection)!
+
