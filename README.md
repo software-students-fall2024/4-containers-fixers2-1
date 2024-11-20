@@ -10,7 +10,6 @@
 4. [What It Is](#what-it-is)
 5. [How to Open](#how-to-open)
 
-
 # Teammates 
 
 [Dasha Miroshnichenko](https://github.com/dm5198)
@@ -79,6 +78,8 @@ docker-compose up --build
 ```
 
 **5. Open the local host link for web-app and enjoy!**
+
+To re-capture an emotion you will have to reload the page instead of pressing capture emotion again, bug to be fixed in later versions!
 
 Notes for Usage: Face cannot be too far from camera (shoulders should be at bottom of screen) in order for the model to be able to read your emotion!
 
