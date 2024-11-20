@@ -307,7 +307,6 @@ def test_capture_image_decoding_error(client, monkeypatch):
     assert "Error processing the image" in response.get_json()["error"]
 
 
-
 def test_dashboard_no_session(client):
     """
     Test the dashboard route when no session is available.
