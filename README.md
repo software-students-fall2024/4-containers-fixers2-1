@@ -1,5 +1,5 @@
 ![Lint-free](https://github.com/nyu-software-engineering/containerized-app-exercise/actions/workflows/lint.yml/badge.svg)
-![ML and Web App CI](https://github.com/nyu-software-engineering/containerized-app-exercise/actions/workflows/ci.yml/badge.svg)
+![CI Status](https://github.com/software-students-fall2024/4-containers-fixers2-1/actions/workflows/ci.yml/badge.svg)
 
 # Containerized App Exercise
 
