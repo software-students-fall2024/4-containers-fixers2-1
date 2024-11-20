@@ -1,18 +1,14 @@
 ![Lint-free](https://github.com/nyu-software-engineering/containerized-app-exercise/actions/workflows/lint.yml/badge.svg)
+![ML and Web App CI](https://github.com/nyu-software-engineering/containerized-app-exercise/actions/workflows/ci.yml/badge.svg)
 
 # Containerized App Exercise
 
 # Table of Contents
-
 1. [Teammates](#teammates)  
 2. [App Description: Emotion Recognition and Wellness Advisor](#app-description-emotion-recognition-and-wellness-advisor)  
-   - [How It Works](#how-it-works)  
-3. [How to Open](#how-to-open)  
-   - [Ensure Connection to Mongo](#1-ensure-connection-to-mongo)  
-   - [Create a New Virtual Environment](#2-create-a-new-virtual-environment)  
-   - [Install Dependencies](#3-install-dependencies-if-not-already-installed)  
-   - [Docker Compose](#4-docker-compose)  
-   - [Open the Local Host Link](#5-open-the-local-host-link-for-web-app-and-enjoy)
+3. [Task Board](#task-board)
+4. [What It Is](#what-it-is)
+5. [How to Open](#how-to-open)
 
 
 # Teammates 
@@ -29,7 +25,11 @@
 
 Our Emotion Recognition and Wellness Advisor app uses cutting-edge emotion detection technology to help users enhance their mental well-being. By analyzing facial expressions in real-time, the app identifies emotions such as happiness, sadness, anger, and more. Based on the detected emotion, the app provides tailored wellness advice, like mindfulness exercises, motivational quotes, or self-care suggestions.
 
-**How It Works:**
+# Task Board
+
+[Task Board](https://github.com/orgs/software-students-fall2024/projects/105)
+
+## What It Is
 
 - **Emotion Detection:** Using a machine learning model, the app captures real-time images or videos and identifies the user’s current emotional state.
 - **Personalized Advice:** Based on the recognized emotion, the app recommends activities or tips to help maintain or improve the user's mood. For example, if sadness is detected, the app might suggest calming meditation exercises or uplifting music.
@@ -79,5 +79,7 @@ docker-compose up --build
 ```
 
 **5. Open the local host link for web-app and enjoy!**
+
+Notes for Usage: Face cannot be too far from camera (shoulders should be at bottom of screen) in order for the model to be able to read your emotion!
 
 Thank you for the [Emotion Detection Model](https://www.kaggle.com/datasets/abhisheksingh016/machine-model-for-emotion-detection)!

@@ -6,6 +6,7 @@ using a pre-trained machine learning model.
 from flask import Flask, request, jsonify, flash
 from datetime import datetime, timezone
 from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing import image
 import cv2
 import numpy as np
 import tensorflow as tf
@@ -37,13 +38,13 @@ face_cascade = cv2.CascadeClassifier(
 
 # Define a dictionary to map model output to emotion text
 emotion_dict = {
-    0: "Angry 😡",
-    1: "Disgusted 🥴",
-    2: "Fear 😨",
-    3: "Happy 😊",
-    4: "Sad 😢",
-    5: "Surprised 😮",
-    6: "Neutral 😐",
+    0: ("Angry 😡", "Take deep breaths or go for a calming walk."),
+    1: ("Disgusted 🥴", "Try to step away and focus on something you enjoy."),
+    2: ("Fear 😨", "Remind yourself of your strengths and seek support if needed."),
+    3: ("Happy 😊", "Celebrate your happiness by sharing it with someone!"),
+    4: ("Sad 😢", "Listen to uplifting music or talk to a trusted friend."),
+    5: ("Surprised 😮", "Take a moment to reflect and process the surprise."),
+    6: ("Neutral 😐", "Use this balance to focus on tasks or mindfulness."),
 }
 
 
@@ -86,14 +87,19 @@ def detect_emotion():
             return jsonify({"error": "No faces detected in the image."}), 400
 
         for x, y, w, h in faces:
+
             face_roi = frame[y : y + h, x : x + w]
             face_image = cv2.resize(face_roi, (48, 48))
             face_image = cv2.cvtColor(face_image, cv2.COLOR_BGR2GRAY)
-            face_image = np.expand_dims(face_image, axis=(0, -1)) / 255.0
+            face_image = image.img_to_array(face_image)
+            face_image = np.expand_dims(face_image, axis=0)
+            face_image = np.vstack([face_image])
 
             predictions = model.predict(face_image)
             emotion_index = np.argmax(predictions)
-            emotion_label = emotion_dict.get(emotion_index, "Unknown")
+            emotion_label, recommendation = emotion_dict.get(
+                emotion_index, ("Unknown", "No recommendation available.")
+            )
 
             try:
                 emotion_data_collection.insert_one(
@@ -105,7 +111,7 @@ def detect_emotion():
                     500,
                 )
 
-            return jsonify({"emotion": emotion_label})
+            return jsonify({"emotion": emotion_label, "recommendation": recommendation})
 
     except Exception as e:
         return jsonify({"error": f"Error processing the request: {str(e)}"}), 500

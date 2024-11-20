@@ -135,6 +135,9 @@ def capture():
 
         # Get the detected emotion
         emotion_text = response.json().get("emotion", "Unknown")
+        recommendation = response.json().get(
+            "recommendation", "No recommendation available."
+        )
     except requests.RequestException as e:
         return {"error": f"Error connecting to ML client: {str(e)}"}, 500
     except Exception as e:
@@ -151,7 +154,11 @@ def capture():
         }
     )
 
-    return {"emotion": emotion_text, "timestamp": timestamp}
+    return {
+        "emotion": emotion_text,
+        "recommendation": recommendation,
+        "timestamp": timestamp,
+    }
 
 
 @app.route("/dashboard")
