@@ -8,7 +8,8 @@
 1. [Teammates](#teammates)  
 2. [App Description: Emotion Recognition and Wellness Advisor](#app-description-emotion-recognition-and-wellness-advisor)  
 3. [Task Board](#task-board)
-4. [How to Open](#how-to-open)
+4. [What It Is](#what-it-is)
+5. [How to Open](#how-to-open)
 
 # Teammates 
 
@@ -28,13 +29,12 @@ Our Emotion Recognition and Wellness Advisor app uses cutting-edge emotion detec
 
 [Task Board](https://github.com/orgs/software-students-fall2024/projects/105)
 
-**How It Works:**
+# What It Is
 
 - **Emotion Detection:** Using a machine learning model, the app captures real-time images or videos and identifies the user’s current emotional state.
-- **Personalized Advice:** Based on the recognized emotion, the app recommends activities or tips to help maintain or improve the user's mood. For example, if sadness is detected, the app might suggest calming meditation exercises or uplifting music.
 - **Dashboard Display:** The web app presents a user-friendly dashboard where users can see their current and past emotions along with personalized advice.
 
-The app aims to promote emotional awareness and provide quick, personalized guidance for mental well-being. Whether you’re looking to uplift your mood or enhance your mindfulness practice, this app supports you on your wellness journey.
+The app aims to promote emotional awareness and provide guidance for mental well-being. Whether you’re looking to uplift your mood or enhance your mindfulness practice, this app supports you on your wellness journey.
 
 # How to Open
 
